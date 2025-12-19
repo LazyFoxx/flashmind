@@ -62,3 +62,5 @@ coverage.xml
 # Logs and databases
 *.log
 *.sqlite3
+
+**/__init__.py

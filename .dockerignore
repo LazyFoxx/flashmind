@@ -1,0 +1,35 @@
+# Игнорируем всё, что не нужно в продакшене
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.coverage
+htmlcov
+
+# Виртуальные окружения и кэш Poetry
+.env
+.venv
+venv
+.envs
+
+# Git и локальные файлы
+.git
+.gitignore
+.github
+
+# Локальные IDE настройки
+.idea
+.vscode
+.DS_Store
+
+# Тесты и dev-зависимости (если не нужны в проде)
+tests/
+test_*
+
+# Сам Dockerfile и compose — их копировать не обязательно
+Dockerfile
+docker-compose.yml
+
+# Логи и временные файлы
+*.log

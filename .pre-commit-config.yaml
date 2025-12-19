@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
-      - id: ruff-format  # быстрый форматтер от ruff (почти как black, но быстрее)
+      - id: ruff-format
 
   - repo: https://github.com/psf/black
     rev: 24.8.0
@@ -16,7 +16,7 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies: [fastapi, uvicorn, pydantic]
-        verbose: true
+        # verbose: true
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
