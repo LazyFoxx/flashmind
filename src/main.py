@@ -14,7 +14,6 @@ app = FastAPI(
 app.include_router(cards_router)
 app.include_router(decks_router)
 
-
 # @app.get("/")
 # async def root():
 #     return {
