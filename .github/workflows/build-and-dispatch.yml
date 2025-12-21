@@ -30,8 +30,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64  # если хотите поддержку arm64 (например, для Mac M1/M2)
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/flashmind-${{ vars.SERVICE_NAME }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/flashmind-${{ vars.SERVICE_NAME }}:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/flashmind-${{ secrets.SERVICE_NAME }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/flashmind-${{ secrets.SERVICE_NAME }}:${{ github.sha }}
 
       - name: Отправляем сигнал на деплой
         run: |
