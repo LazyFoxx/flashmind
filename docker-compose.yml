@@ -8,4 +8,4 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - ENVIRONMENT=production  # если у тебя есть разные конфиги
+      - ENVIRONMENT=production
