@@ -11,7 +11,8 @@ dependencies = [
     "fastapi (>=0.124.4,<0.125.0)",
     "uvicorn[standard] (>=0.38.0,<0.39.0)",
     "pydantic-settings (>=2.12.0,<3.0.0)",
-    "pytest (>=9.0.2,<10.0.0)"
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-asyncio (>=1.3.0,<2.0.0)"
 ]
 
 
@@ -47,6 +48,7 @@ python = "^3.13"
 [tool.taskipy.tasks]
 dev = "uvicorn src.main:app --reload"
 start = "uvicorn src.main:app --host 0.0.0.0 --port 8000"
+tests = "pytest -v -s"
 
 [tool.mypy]
 explicit_package_bases = true
