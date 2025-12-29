@@ -4,7 +4,34 @@ on:
       - main
 
 jobs:
-  build:
+
+  tests:
+    runs-on: ubuntu-latest
+    name: Run Tests (pytest)
+
+    steps:
+      - name: Скачиваем код
+        uses: actions/checkout@v4
+
+      - name: Устанавливаем Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Устанавливаем Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Устанавливаем зависимости
+        run: |
+          poetry install --with dev
+
+      - name: Запускаем тесты
+        run: |
+          poetry run task tests
+
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
