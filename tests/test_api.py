@@ -22,7 +22,7 @@ async def test_create_card(client, sample_deck_id):
         "back": "интеграционные тесты нужны для многих задач писать лень",
     }
 
-    response = await client.post("/cards/", json=payload)
+    response = await client.post("/api/latest/cards/", json=payload)
     assert response.status_code == 201
     data = response.json()
     assert data["front"] == payload["front"]
@@ -34,7 +34,7 @@ async def test_create_card(client, sample_deck_id):
 async def test_get_card_by_id(client, created_card_id):
     """Получаем карточку по ее id"""
 
-    response = await client.get(f"/cards/{created_card_id}")
+    response = await client.get(f"/api/latest/cards/{created_card_id}")
     assert response.status_code == 200
 
 
@@ -43,7 +43,9 @@ async def test_update_card(client, created_card_id):
     """Обновление полей карточки"""
 
     update_payload = {"front": "Обновлённый вопрос", "back": "Обновлённый ответ"}
-    response = await client.patch(f"/cards/{created_card_id}", json=update_payload)
+    response = await client.patch(
+        f"/api/latest/cards/{created_card_id}", json=update_payload
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -51,7 +53,9 @@ async def test_update_card(client, created_card_id):
     assert data["back"] == "Обновлённый ответ"
 
     update_payload = {"back": "Обновлённый ответ 2"}
-    response = await client.patch(f"/cards/{created_card_id}", json=update_payload)
+    response = await client.patch(
+        f"/api/latest/cards/{created_card_id}", json=update_payload
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -63,12 +67,12 @@ async def test_update_card(client, created_card_id):
 async def test_delete_card(client, created_card_id):
     """Удаление карточки"""
 
-    response = await client.delete(f"/cards/{created_card_id}")
+    response = await client.delete(f"/api/latest/cards/{created_card_id}")
 
     assert response.status_code == 204
 
     # Проверяем, что карточка действительно удалена
-    get_response = await client.get(f"/cards/{created_card_id}")
+    get_response = await client.get(f"/api/latest/cards/{created_card_id}")
     assert get_response.status_code == 404
 
 
@@ -77,7 +81,7 @@ async def test_get_cards_with_filters(client, created_card_id, sample_deck_id):
     """Получаем список карточек по deck_id"""
 
     response = await client.get(
-        "/cards/",
+        "/api/latest/cards/",
         params={
             "deck_id": sample_deck_id,
         },
@@ -99,7 +103,7 @@ async def test_create_deck(client):
         "name": "REST API",
         "description": "Колода REST API содержит карточки для изучения и улучшения знаний технологии",
     }
-    response = await client.post("/decks/", json=payload)
+    response = await client.post("/api/latest/decks/", json=payload)
     assert response.status_code == 201
     data = response.json()
     assert data["name"] == payload["name"]
@@ -111,7 +115,7 @@ async def test_create_deck(client):
 async def test_get_deck_by_id(client, created_deck_id):
     """Получение колоды по ее id"""
 
-    response = await client.get(f"/decks/{created_deck_id}")
+    response = await client.get(f"/api/latest/decks/{created_deck_id}")
     assert response.status_code == 200
     data = response.json()
     assert data["name"]
@@ -127,7 +131,9 @@ async def test_update_deck(client, created_deck_id):
         "name": "Обновлённый название",
         "description": "Обновлённое описание",
     }
-    response = await client.patch(f"/decks/{created_deck_id}", json=update_payload)
+    response = await client.patch(
+        f"/api/latest/decks/{created_deck_id}", json=update_payload
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -135,7 +141,9 @@ async def test_update_deck(client, created_deck_id):
     assert data["description"] == "Обновлённое описание"
 
     update_payload = {"description": "Обновлённое описание 2"}
-    response = await client.patch(f"/decks/{created_deck_id}", json=update_payload)
+    response = await client.patch(
+        f"/api/latest/decks/{created_deck_id}", json=update_payload
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -147,7 +155,7 @@ async def test_update_deck(client, created_deck_id):
 async def test_get_decks(client, created_deck_id):
     """Получаем список всех колод"""
 
-    response = await client.get("/decks/")
+    response = await client.get("/api/latest/decks/")
 
     assert response.status_code == 200
     data = response.json()
@@ -158,10 +166,10 @@ async def test_get_decks(client, created_deck_id):
 async def test_delete_deck(client, created_deck_id):
     """Удаление колоды"""
 
-    response = await client.delete(f"/decks/{created_deck_id}")
+    response = await client.delete(f"/api/latest/decks/{created_deck_id}")
 
     assert response.status_code == 204
 
     # Проверяем, что колода действительно удалена
-    get_response = await client.get(f"/cards/{created_deck_id}")
+    get_response = await client.get(f"/api/latest/decks/{created_deck_id}")
     assert get_response.status_code == 404

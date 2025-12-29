@@ -11,11 +11,7 @@ from src.presentation.api.rest.v1.schemas.card import (
     CardUpdate,
 )
 
-router = APIRouter(
-    prefix="/cards",
-    tags=["Cards"],
-    responses={404: {"description": "Not found"}},
-)
+router = APIRouter()
 
 
 @router.post(

@@ -29,7 +29,7 @@ async def created_card_id(client, sample_deck_id):
         "front": "Фикстура — это магия pytest",
         "back": "Она готовит данные автоматически",
     }
-    response = await client.post("/cards/", json=payload)
+    response = await client.post("/api/latest/cards/", json=payload)
     assert response.status_code == 201
     return response.json()["id"]
 
@@ -41,6 +41,6 @@ async def created_deck_id(client):
         "name": "Колода для изучения тестирования",
         "description": "Помогает узнать об основных видах тестирования приложения",
     }
-    response = await client.post("/decks/", json=payload)
+    response = await client.post("/api/latest/decks/", json=payload)
     assert response.status_code == 201
     return response.json()["id"]

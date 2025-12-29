@@ -10,11 +10,7 @@ from src.presentation.api.rest.v1.schemas.deck import (
     DeckUpdate,
 )
 
-router = APIRouter(
-    prefix="/decks",
-    tags=["Decks"],
-    responses={404: {"description": "Not found"}},
-)
+router = APIRouter()
 
 
 @router.post(
