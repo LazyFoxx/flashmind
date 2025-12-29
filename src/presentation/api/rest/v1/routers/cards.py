@@ -95,7 +95,10 @@ async def get_cards(
 
     # Если передан deck_id — фильтруем
     if deck_id is not None:
-        filtered_cards = [card for card in cards if UUID(card["deck_id"]) == deck_id]
+        filtered_cards = [
+            card for card in cards if str(card["deck_id"]) == str(deck_id)
+        ]
+
     else:
         filtered_cards = list(cards)
 
