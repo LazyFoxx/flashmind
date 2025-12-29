@@ -72,7 +72,7 @@ async def test_delete_card(client, created_card_id):
     assert get_response.status_code == 404
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_cards_with_filters(client, created_card_id, sample_deck_id):
     """Получаем список карточек по deck_id"""
 
@@ -86,3 +86,82 @@ async def test_get_cards_with_filters(client, created_card_id, sample_deck_id):
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
+
+
+# Тестирование decks
+
+
+@pytest.mark.asyncio
+async def test_create_deck(client):
+    """Создаем новую колоду"""
+
+    payload = {
+        "name": "REST API",
+        "description": "Колода REST API содержит карточки для изучения и улучшения знаний технологии",
+    }
+    response = await client.post("/decks/", json=payload)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["name"] == payload["name"]
+    assert data["description"] == payload["description"]
+    assert data["id"]
+
+
+@pytest.mark.asyncio
+async def test_get_deck_by_id(client, created_deck_id):
+    """Получение колоды по ее id"""
+
+    response = await client.get(f"/decks/{created_deck_id}")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"]
+    assert data["description"]
+    assert data["id"]
+
+
+@pytest.mark.asyncio
+async def test_update_deck(client, created_deck_id):
+    """Обновление полей колоды"""
+
+    update_payload = {
+        "name": "Обновлённый название",
+        "description": "Обновлённое описание",
+    }
+    response = await client.patch(f"/decks/{created_deck_id}", json=update_payload)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "Обновлённый название"
+    assert data["description"] == "Обновлённое описание"
+
+    update_payload = {"description": "Обновлённое описание 2"}
+    response = await client.patch(f"/decks/{created_deck_id}", json=update_payload)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "Обновлённый название"
+    assert data["description"] == "Обновлённое описание 2"
+
+
+@pytest.mark.asyncio
+async def test_get_decks(client, created_deck_id):
+    """Получаем список всех колод"""
+
+    response = await client.get("/decks/")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+
+
+@pytest.mark.asyncio
+async def test_delete_deck(client, created_deck_id):
+    """Удаление колоды"""
+
+    response = await client.delete(f"/decks/{created_deck_id}")
+
+    assert response.status_code == 204
+
+    # Проверяем, что колода действительно удалена
+    get_response = await client.get(f"/cards/{created_deck_id}")
+    assert get_response.status_code == 404

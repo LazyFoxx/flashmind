@@ -2,7 +2,7 @@ from uuid import uuid4, UUID
 from fastapi import APIRouter, HTTPException, status, Body, Path
 from typing import List
 
-from src.infrastructure.db.in_memory import _fake_cards_db, _fake_decks_db
+from src.infrastructure.db.in_memory import _fake_decks_db
 
 from src.presentation.api.rest.v1.schemas.deck import (
     DeckCreate,
@@ -151,7 +151,7 @@ async def update_deck(
         404: {"description": "Колода с указанным ID не существует"},
     },
 )
-async def delete_card(
+async def delete_deck(
     deck_id: UUID = Path(
         ..., description="ID колоды", examples=["a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8"]
     ),
@@ -165,7 +165,7 @@ async def delete_card(
     """
     # проверяем на наличие карточки в БД
     deck_key = str(deck_id)
-    if deck_key not in _fake_cards_db:
+    if deck_key not in _fake_decks_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"карточка с ID - {deck_id} не найдена",
