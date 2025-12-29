@@ -1,10 +1,15 @@
 import pytest
 
+# тестирование работоспособности
+
 
 @pytest.mark.asyncio
 async def test_health_check(client):
     response = await client.get("/docs")
     assert response.status_code == 200
+
+
+# тестирование cards
 
 
 @pytest.mark.asyncio
@@ -35,6 +40,8 @@ async def test_get_card_by_id(client, created_card_id):
 
 @pytest.mark.asyncio
 async def test_update_card(client, created_card_id):
+    """Обновление полей карточки"""
+
     update_payload = {"front": "Обновлённый вопрос", "back": "Обновлённый ответ"}
     response = await client.patch(f"/cards/{created_card_id}", json=update_payload)
 
@@ -54,6 +61,8 @@ async def test_update_card(client, created_card_id):
 
 @pytest.mark.asyncio
 async def test_delete_card(client, created_card_id):
+    """Удаление карточки"""
+
     response = await client.delete(f"/cards/{created_card_id}")
 
     assert response.status_code == 204
@@ -65,6 +74,8 @@ async def test_delete_card(client, created_card_id):
 
 @pytest.mark.anyio
 async def test_get_cards_with_filters(client, created_card_id, sample_deck_id):
+    """Получаем список карточек по deck_id"""
+
     response = await client.get(
         "/cards/",
         params={
