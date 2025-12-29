@@ -61,3 +61,17 @@ async def test_delete_card(client, created_card_id):
     # Проверяем, что карточка действительно удалена
     get_response = await client.get(f"/cards/{created_card_id}")
     assert get_response.status_code == 404
+
+
+@pytest.mark.anyio
+async def test_get_cards_with_filters(client, created_card_id, sample_deck_id):
+    response = await client.get(
+        "/cards/",
+        params={
+            "deck_id": sample_deck_id,
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
